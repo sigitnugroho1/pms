@@ -1,0 +1,171 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="jumbotron mt-3">
+        <h1 id="header" class="text-left pt-1"><b>Users</b></h1>
+        <h2><b>Filters</b></h2>
+        <br>
+
+        <div>
+            <form action="/users">
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checkid" value="true"
+                            <%= (query.checkid) ? 'checked': ''%>>User ID
+                    </label>
+                    <div class="col-5">
+                        <input class="form-control" type="text" placeholder="ID" id="id" name="id"
+                            value="<%= query.id %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checkemail" value="true"
+                            <%= (query.checkemail) ? 'checked': ''%>>Email
+                    </label>
+                    <div class="col-5">
+                        <input class="form-control" type="text" placeholder="Email" id="email" name="email"
+                            value="<%= query.email %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checkpassword" value="true"
+                            <%= (query.checkpassword) ? 'checked': ''%>>Password
+                    </label>
+                    <div class="col-5">
+                        <input class="form-control" type="text" placeholder="Password" id="password" name="password"
+                            value="<%= query.password %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checkfirstname" value="true"
+                            <%= (query.checkfirstname) ? 'checked': ''%>>First Name
+                    </label>
+                    <div class="col-5">
+                        <input class="form-control" type="text" placeholder="First Name" id="firstname" name="firstname"
+                            value="<%= query.firstname %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checklastname" value="true"
+                            <%= (query.checklastname) ? 'checked': ''%>>Last Name
+                    </label>
+                    <div class="col-5">
+                        <input class="form-control" type="text" placeholder="Last Name" id="lastname" name="lastname"
+                            value="<%= query.lastname %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checkposition" value="true"
+                            <%= (query.checkposition) ? 'checked': ''%>>Position
+                    </label>
+                    <div class="col-sm-5">
+                        <select name="position" class="form-control">
+                            <option value=''>Choose the Position ...</option>
+                            <option value="Manager" <%= query.position == "manager" ? 'selected' : '' %>>Manager
+                            </option>
+                            <option value="Software Developer"
+                                <%= query.position == "software developer" ? 'selected' : '' %>>
+                                Software Developer</option>
+                            <option value=" Quality Assurance"
+                                <%= query.position == "quality assurance" ? 'selected' : '' %>>
+                                Quality Assurance</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checktype" value="true"
+                            <%= (query.checktype) ? 'checked': ''%>>Type
+                    </label>
+                    <div class="col-sm-5">
+                        <select name="type" class="form-control">
+                            <option value=''>Choose the Type ...</option>
+                            <option value="Full Time" <%= query.type == "full time" ? 'selected' : '' %>>Full
+                                Time</option>
+                            <option value="Part Time" <%= query.type == "part time" ? 'selected' : '' %>>Part Time
+                            </option>
+                        </select>
+                    </div>
+                </div><br>
+
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="/users" class="btn btn-warning">Reset</a>
+            </form>
+        </div><br><br>
+        <div>
+
+
+            <table class="table table-striped" id="myTable">
+                <thead style="border-bottom: none;">
+                    <tr></tr>
+                    <th scope="col">User Id</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">last Name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.forEach( item =>{ %>
+                    <tr>
+                        <th scope="row"><%= item.userid %></a></th>
+                        <td><%=item.email%></td>
+                        <td><%=item.password%></td>
+                        <td><%=item.firstname%></td>
+                        <td><%=item.lastname%></td>
+                        <td><%=item.position%></td>
+                        <td><%=item.type%></td>
+                        <td><a href="/users/edit/<%= item.userid %>" class="btn btn-success"
+                                <%= !isAdmin ? 'hidden' : '' %>>Edit</a></button>
+                            <a href="/users/delete/<%= item.userid %>" class="btn btn-danger"
+                                onclick="return confirm('Yakin ingin menghapus user ?');"
+                                <%= !isAdmin ? 'hidden' : '' %>>Delete</button>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item<%= pagination.page == 1 ?' disabled' : ''%>"><a class="page-link"
+                            href="/users<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)-1}`) %>">Previous</a>
+                    </li>
+                    <% for (let i = 1; i <= pagination.pages; i++) {%>
+                    <li class="page-item<%= i == pagination.page ?' active' : ''%>"><a class="page-link"
+                            href="/users<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <li class="page-item<%= pagination.page == pagination.pages ?' disabled' : ''%>"><a
+                            class="page-link"
+                            href="/users<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)+1}`) %>">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <a href="/users/add" class=" btn btn-lg btn-primary ">Add</a>
+        </div>
+    </div>
+</div>
+
+</br></br></br>
+
+
+
+<% include ../partials/footer %>

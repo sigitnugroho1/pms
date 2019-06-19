@@ -1,0 +1,158 @@
+<% include ../../partials/header %>
+<% include ../../partials/sidebar %>
+
+
+<div class="col-10">
+    <div class="jumbotron mt-3">
+        <div class="container">
+            <h1 id="header" class="text-left pt-1"><b>Members</b></h1><br>
+            <h2><b>Filters</b></h2>
+            <br>
+
+
+            <!-- ============ filters =============== -->
+            <form action="/projects/members/<%= id %>">
+                <input type="hidden" name="page" value="1" />
+
+                <div class="form-group row">
+                    <input class="form-check-input col-sm-1" type="checkbox" name="checkid2" id="defaultCheck"
+                        <%= (query.checkid2) ? ' checked ': ''%>>
+                    <label for="id" class="col-sm-2 form-check-label">Member ID</label>
+                    <div class="col-6">
+                        <input class="form-control" type="text" placeholder="ID" id="id2" name="formid2"
+                            value="<%= query.formid2 %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <input class="form-check-input col-sm-1" type="checkbox" name="checkname2" id="defaultCheck"
+                        <%= (query.checkname2) ? ' checked ': ''%>>
+                    <label for="name" class="col-sm-2 form-check-label"> Name</label>
+                    <div class="col-6">
+                        <select class="custom-select" name="formname2">
+                            <option value="">Choose the Member Name...</option>
+                            <% users.forEach((item)=>{%>
+                            <option value="<%= item.userid%>" <%= query.formname2 == item.userid ? 'selected' : '' %>>
+                                <%= item.firstname + ' ' + item.lastname %>
+                            </option>
+                            <%})%>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <input class="form-check-input col-sm-1" type="checkbox" name="checkposition2" id="defaultCheck1"
+                        <%= (query.checkposition2) ? ' checked ': ''%>>
+                    <label for="position" class="col-sm-2 form-check-label">Position</label>
+                    <div class="col-6">
+                        <select class="custom-select" name="formposition2">
+                            <option value="">Choose the position ...</option>
+                            <% role.forEach((item)=>{%>
+                            <option value="<%= item.position %>"
+                                <%= query.formposition2 == item.position ? 'selected':''; %>>
+                                <%= item.position %>
+                            </option>
+                            <%})%>
+                        </select>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                <a href="/projects/members/<%= id %>" class="btn btn-warning btn-sm">Reset</a>
+                <hr class="my-2">
+            </form>
+
+            <!-- ============= option ================= -->
+            <br><br>
+            <h3><b>Options</b></h3>
+            <form class="" action="/projects/membersoption/<%= id %>" method="post">
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-2 pt-0">Columns</legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="oid" id="check1" value="true"
+                                    <%= memberoption.oid ? 'checked':'' %>>
+                                <label class="form-check-label" for="check1">
+                                    Member ID
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="oname" id="check2" value="true"
+                                    <%= memberoption.oname ? 'checked':'' %>>
+                                <label class="form-check-label" for="check2">
+                                    Name
+                                </label>
+                            </div>
+                            <div class="form-check disabled">
+                                <input class="form-check-input" type="checkbox" name="oposition" id="check3"
+                                    value="true" <%= memberoption.oposition ? 'checked':'' %>>
+                                <label class="form-check-label" for="check3">
+                                    Position
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </form>
+
+
+            <!-- ============= table================= -->
+            <br><br><br>
+            <table class="table table-striped">
+                <thead style="border-bottom: none">
+                    <tr>
+                        <% if(memberoption.oid){%><th scope="col-sm-10" class="ID">Member ID</th><%}%>
+                        <% if(memberoption.oname){%><th scope="col-sm-10" class="Name">Name</th><%}%>
+                        <% if(memberoption.oposition){%><th scope="col-sm-10" class="Position">Position</th><%}%>
+                    <th scope="col-sm-10" class="Action">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach((item) => {  %>
+                    <tr>
+                        <% if(memberoption.oid){%><td scope="row" class="ID"><%= item.id %></td><%}%>
+                        <% if(memberoption.oname){%><td class="Name"><%= item.firstname %> <%= item.lastname %></td><%}%>
+                        <% if(memberoption.oposition){%><td class="Position"><%= item.role %></td><%}%>
+
+                    <td class="Action">
+                        <a href="/projects/members/<%= id%>/edit/<%= item.id%>" class="btn btn-success"
+                        <%= !isAdmin ? 'hidden' : '' %>>Edit</a>
+                        <a href="/projects/members/<%= id%>/delete/<%= item.id%>" class=" btn btn-danger"
+                            onclick="return confirm('Yakin mau delete members...!!!')"
+                            <%= !isAdmin ? 'hidden' : '' %>>Delete</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    </tbody>
+            </table>
+
+
+            <!-- ============== pagination ============= -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item<%= pagination.page == 1 ?' disabled' : ''%>"><a class="page-link"
+                            href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)-1}`) %>">Previous</a>
+                    </li>
+                    <% for (let i = 1; i <= pagination.pages; i++) {%>
+                    <li class="page-item<%= i == pagination.page ?' active' : ''%>"><a class="page-link"
+                            href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <li class="page-item<%= pagination.page == pagination.pages ?' disabled' : ''%>"><a
+                            class="page-link"
+                            href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)+1}`) %>">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <a href="/projects/members/<%= id %>/add" class="btn btn-primary">Add</a>
+        </div>
+    </div>
+</div>
+
+
+<% include ../../partials/footer %>

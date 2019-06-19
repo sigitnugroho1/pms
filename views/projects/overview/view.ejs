@@ -1,0 +1,44 @@
+<% include ../../partials/header %>
+<% include ../../partials/sidebar %>
+
+
+
+<div class="col-10">
+    <div class="jumbotron mt-3">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel"
+                aria-labelledby="v-pills-overview-tab">
+                <h1 class="text-left pt-1"><b>Overview</b></h1>
+                <hr>
+                <h2><b>Library System</b></h2><br>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Issue tracking</p>
+                        <ul>
+                            <li>Bug: <%= tracker.bug ? tracker.bug.rows[0].count : 0 ;%> Open /
+                                <%= tracker.bug ? tracker.bug.rows[0].closed : 0 ;%></li>
+                            <li>Feature: <%= tracker.feature ? tracker.feature.rows[0].count : 0 ;%> Open /
+                                <%= tracker.feature ? tracker.feature.rows[0].closed : 0 ;%></li>
+                            <li>Support: <%= tracker.support ? tracker.support.rows[0].count: 0 ;%> Open /
+                                <%= tracker.support ? tracker.support.rows[0].closed: 0 ;%></li>
+                        </ul>
+                    </div>
+                </div><br><br>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Members</p>
+                        <ul>
+                            <%data.forEach(item=>{%>
+                            <li><%=item.firstname+' '+item.lastname%></li>
+                            <%})%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<% include ../../partials/footer %>

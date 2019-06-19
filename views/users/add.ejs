@@ -1,0 +1,76 @@
+<% include ../partials/header %>
+
+
+<div class="container">
+    <div class="jumbotron mt-3">
+        <h1 id="header" class="text-left pt-1"><b>Add User</b></h1>
+        <br>
+
+        <div>
+            <form action="" method="post">
+                <fieldset class="form-group">
+
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 form-check-label">Email</label>
+                        <div class="col-sm-6">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-2 form-check-label">Password</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="password" name="password"
+                                placeholder="Password">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="firstname" class="col-sm-2 form-check-label">First Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="firstname" name="firstname"
+                                placeholder="First Name">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="lastname" class="col-sm-2 form-check-label">Last Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="lastname" name="lastname"
+                                placeholder="Last Name">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="position" class="col-sm-2 form-check-label">Position</label>
+                        <div class="col-sm-6">
+                            <select name="position" class="form-control">
+                                <option value=''>Choose the Position ...</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Software Developer">Software Developer</option>
+                                <option value="Quality Assurance">Quality Assurance</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="type" class="col-sm-2 form-check-label">Type</label>
+                        <div class="col-sm-6">
+                            <select name="type" class="form-control">
+                                <option value=''>Choose the Type ...</option>
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/users" class="btn btn-warning">Back</a>
+            </form>
+        </div>
+    </div>
+
+    </br></br></br>
+
+    <% include ../partials/footer %>

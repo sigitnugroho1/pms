@@ -1,0 +1,246 @@
+<% include ../../partials/header %>
+<% include ../../partials/sidebar %>
+
+
+<div class="col-10">
+    <div class="jumbotron mt-3">
+        <div class="container">
+            <h1 id="header" class="text-left pt-1"><b>Issues</b></h1><br>
+            <h2><b>Filters</b></h2>
+            <br>
+
+
+            <!-- ============ filters =============== -->
+            <form action="/projects/issues/<%= id %>">
+                <input type="hidden" name="page" value="1" />
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checkid3" value="true"
+                            <%= (query.checkid3) ? ' checked ': ''%>>ID
+                    </label>
+                    <div class="col-7">
+                        <input class="form-control" type="text" placeholder="ID" id="id3" name="formid3"
+                            value="<%= query.formid3 %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checksubject" value="true"
+                            <%= (query.checksubject) ? ' checked ': ''%>>Subject
+                    </label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="subject" name="formsubject" placeholder="Subject"
+                            value="<%= query.formsubject %>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">
+                        <input class="form-check-input" type="checkbox" name="checktracker" value="true"
+                            <%= (query.checktracker) ? ' checked ': ''%>>Tracker
+                    </label>
+                    <div class="col-7">
+                        <select class="custom-select" name="formtracker">
+                            <option value="">Choose the Tracker.....</option>
+                            <option value="bug" <%= query.formtracker == 'bug' ? 'selected' : '' %>>Bug</option>
+                            <option value="feature" <%= query.formtracker == 'feature' ? 'selected' : '' %>>Feature
+                            </option>
+                            <option value="support" <%= query.formtracker == 'support' ? 'selected' : '' %>>Support
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                <a href="/projects/issues/<%= id %>" class="btn btn-warning btn-sm">Reset</a>
+                <hr class="my-2">
+            </form>
+
+            <!-- ============= option ================= -->
+            <br><br>
+            <h3><b>Options</b></h3>
+            <form class="" action="/projects/issuesoption/<%= id %>" method="post">
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-2 pt-0">Columns</legend>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="oid" id="check1" value="true"
+                                    <%= issueoption.oid ? 'checked':'' %>>
+                                <label class="form-check-label" for="check1">
+                                    ID
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="osubject" id="check2" value="true"
+                                    <%= issueoption.osubject ? 'checked':'' %>>
+                                <label class="form-check-label" for="check2">
+                                    Subject
+                                </label>
+                            </div>
+                            <div class="form-check disabled">
+                                <input class="form-check-input" type="checkbox" name="otracker" id="check3" value="true"
+                                    <%= issueoption.otracker ? 'checked':'' %>>
+                                <label class="form-check-label" for="check3">
+                                    Tracker
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="ostatus" id="check1" value="true"
+                                    <%= issueoption.ostatus ? 'checked':'' %>>
+                                <label class="form-check-label" for="check1">
+                                    Status
+                                </label>
+                            </div>
+                            <div class="form-check disabled">
+                                <input class="form-check-input" type="checkbox" name="opriority" id="check3"
+                                    value="true" <%= issueoption.opriority ? 'checked':'' %>>
+                                <label class="form-check-label" for="check3">
+                                    Priority
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="odone" id="check2" value="true"
+                                    <%= issueoption.odone ? 'checked':'' %>>
+                                <label class="form-check-label" for="check2">
+                                    Done
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="oauthor" id="check1" value="true"
+                                    <%= issueoption.oauthor ? 'checked':'' %>>
+                                <label class="form-check-label" for="check1">
+                                    Author
+                                </label>
+                            </div>
+                            <div class="form-check disabled">
+                                <input class="form-check-input" type="checkbox" name="oassignee" id="check3"
+                                    value="true" <%= issueoption.oassignee ? 'checked':'' %>>
+                                <label class="form-check-label" for="check3">
+                                    Assignee
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="ostartdate" id="check2"
+                                    value="true" <%= issueoption.ostartdate ? 'checked':'' %>>
+                                <label class="form-check-label" for="check2">
+                                    Start Date
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="ocrateddate" id="check1"
+                                    value="true" <%= issueoption.ocrateddate ? 'checked':'' %>>
+                                <label class="form-check-label" for="check1">
+                                    Crated Date
+                                </label>
+                            </div>
+                            <div class="form-check disabled">
+                                <input class="form-check-input" type="checkbox" name="oupdateddate" id="check3"
+                                    value="true" <%= issueoption.oupdateddate ? 'checked':'' %>>
+                                <label class="form-check-label" for="check3">
+                                    Updated Date
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="ocloseddate" id="check2"
+                                    value="true" <%= issueoption.ocloseddate ? 'checked':'' %>>
+                                <label class="form-check-label" for="check2">
+                                    Closed Date
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </form>
+
+
+            <!-- ============= table================= -->
+            <br><br><br>
+            <table class="table table-striped">
+                <thead style="border-bottom: none">
+                    <tr>
+                        <% if(issueoption.oid){%><th scope="col">ID</th><%}%>
+                            <% if(issueoption.osubject){%><th scope="col">Subject</th><%}%>
+                            <% if(issueoption.otracker){%><th scope="col">Tracker</th><%}%>
+                            <% if(issueoption.ostatus){%><th scope="col">Status</th><%}%>
+                            <% if(issueoption.opriority){%><th scope="col">Priority</th><%}%>
+                            <% if(issueoption.odone){%><th scope="col">Done</th><%}%>
+                            <% if(issueoption.oauthor){%><th scope="col">Author</th><%}%>
+                            <% if(issueoption.oassignee){%><th scope="col">Assignee</th><%}%>
+                            <% if(issueoption.ostartdate){%><th scope="col">Start Date</th><%}%>
+                            <% if(issueoption.ocrateddate){%><th scope="col">Crated Date</th><%}%>
+                            <% if(issueoption.oupdateddate){%><th scope="col">Updated Date</th><%}%>
+                            <% if(issueoption.ocloseddate){%><th scope="col">Closed date</th><%}%>
+                            <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.forEach((item) => {  %>
+                    <tr>
+                        <% if(issueoption.oid){%><td scope="row" class="ID"><%= item.issuesid %></td><%}%>
+                            <% if(issueoption.osubject){%><td class="Name"><%= item.subject %></td><%}%>
+                            <% if(issueoption.otracker){%> <td class="Tracker"><%= item.tracker %></td><%}%>
+                            <% if(issueoption.ostatus){%><td scope="row" class="Status"><%= item.status %></td><%}%>
+                            <% if(issueoption.opriority){%><td scope="row" class="Priority"><%= item.priority %></td><%}%>
+                            <% if(issueoption.odone){%><td scope="row" class="Done"><%= item.done %></td><%}%>
+                            <% if(issueoption.oauthor){%><td scope="row" class="Author"><%= item.author %></td><%}%>
+                            <% if(issueoption.oassignee){%><td scope="row" class="Assignee"><%= item.assignee %></td><%}%>
+                            <% if(issueoption.ostartdate){%><td scope="row" class="startdate"><%= item.startdate %>
+                        </td><%}%>
+                            <% if(issueoption.ocrateddate){%><td scope="row" class="crateddate"><%= item.crateddate %>
+                        </td><%}%>
+                            <% if(issueoption.oupdateddate){%><td scope="row" class="Updateddate">
+                            <%= item.updateddate %></td><%}%>
+                            <% if(issueoption.ocloseddate){%><td scope="row" class="Closeddate"><%= item.closeddate %>
+                        </td><%}%>
+
+                        <td class="Action">
+                            <a href="/projects/issues/<%= id %>/edit/<%= item.issuesid %>"
+                        class="btn btn-success" <%= !isAdmin ? 'hidden' : '' %>>Edit</a>
+                        <a href="/projects/issues/<%= id%>/delete/<%= item.issuesid %>" class=" btn btn-danger"
+                            onclick="return confirm('Yakin mau delete issues...!!!')"
+                            <%= !isAdmin ? 'hidden' : '' %>>Delete</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    </tbody>
+            </table>
+
+
+            <!-- ============================= pagination ================================== -->
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item <%= pagination.page == 1 ?' disabled' : '' %>"><a class="page-link"
+                            href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)-1}`) %>">Previous</a>
+                    </li>
+                    <% for (let i = 1; i <= pagination.pages; i++) {%>
+                    <li class="page-item<%= i == pagination.page ?' active' : ''%>"><a class="page-link"
+                            href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <li
+                        class="page-item<%= (pagination.page == pagination.pages || pagination.pages == 0) ?' disabled' : ''%>">
+                        <a class="page-link"
+                            href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)+1}`) %>">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <a href="/projects/issues/<%= id %>/add" class="btn btn-primary">Add</a>
+        </div>
+    </div>
+</div>
+
+
+<% include ../../partials/footer %>

@@ -1,0 +1,117 @@
+<% include ../../partials/header %>
+<% include ../../partials/sidebar %>
+
+
+<div class="col-10">
+    <div class="jumbotron mt-4">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel"
+                aria-labelledby="v-pills-overview-tab">
+                <h1><b>Activity</b></h1>
+                <hr>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Activity<br>
+                            From <%= moment(day.lastSevenDay).format('DD/MM/YYYY') %>
+                            to <%= moment(day.dayNow).format('DD/MM/YYYY')%><br></p>
+
+                        <p>Today</p>
+                        <ul>
+                            <% for(let i=0; i < data.length; i++){ 
+                                    let a = moment().format("DD-MM-YYYY")
+                                    if(a == moment(data[i].time).format("DD-MM-YYYY")){%>
+                            <li>
+                                <%=`${moment(data[i].time).format("HH:mm")} ${data[i].title}, Description ${data[i].description}, author: ${author}`%>
+                            </li>
+                            <%}}%>
+                        </ul>
+
+                        <p>Yesterday</p>
+                        <ul>
+
+                            <% for(let i=0; i < data.length; i++){ 
+                                    let a = moment().subtract(1, "days").format("DD-MM-YYYY")
+                                    if(a == moment(data[i].time).format("DD-MM-YYYY")){%>
+                            <li>
+                                <%=`${moment(data[i].time).format("HH:mm")} ${data[i].title}, ${data[i].description}, author: ${author}`%>
+                            </li>
+                            <%}}%>
+                        </ul>
+                        <ul>
+                            <% for(let i=0; i < data.length; i++){ 
+                                   let a = moment().subtract(2, "days").format("DD-MM-YYYY")
+                                   if(a == moment(data[i].time).format("DD-MM-YYYY")){%>
+                            <li>
+                                <%=`${moment(data[i].time).format("HH:mm")} ${data[i].title}, ${data[i].description}, author: ${author}`%>
+                            </li>
+                            <%}}%>
+                        </ul>
+
+
+                        <p><%= moment().subtract(2, "days").format("dddd") %></p>
+                        <ul>
+                            <% for(let i=0; i < data.length; i++){ 
+                                   let a = moment().subtract(2, "days").format("DD-MM-YYYY")
+                                   if(a == moment(data[i].time).format("DD-MM-YYYY")){%>
+                            <li>
+                                <%=`${moment(data[i].time).format("HH:mm")} ${data[i].title}, ${data[i].description}, author: ${author}`%>
+                            </li>
+                            <%}}%>
+                        </ul>
+
+                        <p><%= moment().subtract(3, "days").format("dddd")%></p>
+                        <ul>
+                            <% for(let i=0; i < data.length; i++){ 
+                                   let a = moment().subtract(3, "days").format("DD-MM-YYYY")
+                                   if(a == moment(data[i].time).format("DD-MM-YYYY")){%>
+                            <li>
+                                <%=`${moment(data[i].time).format("HH:mm")} ${data[i].title}, ${data[i].description}, author: ${author}`%>
+                            </li>
+                            <%}}%>
+                        </ul>
+
+                        <p><%=moment().subtract(4, "days").format("dddd")%></p>
+                        <ul>
+                            <% for(let i=0; i < data.length; i++){ 
+                                   let a = moment().subtract(4, "days").format("DD-MM-YYYY")
+                                   if(a == moment(data[i].time).format("DD-MM-YYYY")){%>
+                            <li>
+                                <%=`${moment(data[i].time).format("HH:mm")} ${data[i].title}, ${data[i].description}, author: ${author}`%>
+                            </li>
+                            <%}}%>
+                        </ul>
+
+                        <p><%= moment().subtract(5, "days").format("dddd")%></p>
+                        <ul>
+                            <% for(let i=0; i < data.length; i++){ 
+                                   let a = moment().subtract(5, "days").format("DD-MM-YYYY")
+                                   if(a == moment(data[i].time).format("DD-MM-YYYY")){%>
+                            <li>
+                                <%=`${moment(data[i].time).format("HH:mm")} ${data[i].title}, ${data[i].description}, author: ${author}`%>
+                            </li>
+                            <%}}%>
+                        </ul>
+
+                        <p><%=moment().subtract(6, "days").format("dddd")%></p>
+                        <ul>
+                            <% for(let i=0; i < data.length; i++){ 
+                                   let a = moment().subtract(6, "days").format("DD-MM-YYYY")
+                                   if(a == moment(data[i].time).format("DD-MM-YYYY")){%>
+                            <li>
+                                <%=`${moment(data[i].time).format("HH:mm")} ${data[i].title}, ${data[i].description}, author: ${author}`%>
+                            </li>
+                            <%}}%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+
+<% include ../../partials/footer %>

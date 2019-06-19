@@ -1,0 +1,151 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="jumbotron mt-3">
+        <h1 id="header" class="text-left pt-1"><b>Projects</b></h1>
+        <h2><b>Filters</b></h2>
+        <br>
+
+        <!-- ============ filters =============== -->
+        <form action="/projects">
+            <div class="form-group row">
+                <label class="col-2 col-form-label">
+                    <input class="form-check-input" type="checkbox" name="checkid" value="true"
+                        <%= (query.checkid) ? ' checked ': ''%>>ID
+                </label>
+                <div class="col-6">
+                    <input class="form-control" type="text" placeholder="ID" id="id" name="formid"
+                        value="<%= query.formid %>">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">
+                    <input class="form-check-input" type="checkbox" name="checkname" value="true"
+                        <%= (query.checkname) ? ' checked ': ''%>>Name
+                </label>
+                <div class="col-6">
+                    <select class="custom-select" name="formname">
+                        <option value="">Choose the Project Name...</option>
+                        <% projects.forEach((item)=>{%>
+                        <option <%= query.formname == item.projectid ? 'selected' : '' %>>
+                            <%= item.name %>
+                        </option>
+                        <%})%>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">
+                    <input class="form-check-input" type="checkbox" name="checkmember" value="true"
+                        <%= (query.checkmember) ? ' checked ': ''%>>Members
+                </label>
+                <div class="col-6">
+                    <select class="custom-select" name="formmember">
+                        <option value="">Choose the members ...</option>
+                        <% users.forEach((item)=>{%>
+                        <option <%= query.member == item.fullname ? 'selected':''; %>><%= item.fullname %></option>
+                        <%= `${item.fullname}` %>
+                        </option>
+                        <%})%>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+            <a href="/projects" class="btn btn-warning btn-sm">Reset</a>
+            <hr class="my-2">
+        </form>
+
+        <!-- ============= option ================= -->
+        <br><br>
+        <h3><b>Options</b></h3>
+        <form class="" action="/projects/projectoption" method="post">
+            <fieldset class="form-group">
+                <div class="row">
+                    <legend class="col-form-label col-sm-2 pt-0">Columns</legend>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="oid" id="check1" value="true"
+                                <%= projectoption.oid ? 'checked':'' %>>
+                            <label class="form-check-label" for="check1">
+                                ID
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="oname" id="check2" value="true"
+                                <%= projectoption.oname ? 'checked':'' %>>
+                            <label class="form-check-label" for="check2">
+                                Name
+                            </label>
+                        </div>
+                        <div class="form-check disabled">
+                            <input class="form-check-input" type="checkbox" name="omember" id="check3" value="true"
+                                <%= projectoption.omember ? 'checked':'' %>>
+                            <label class="form-check-label" for="check3">
+                                Members
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+
+        <!-- ============= table ================= -->
+        <br><br><br>
+        <table class="table table-striped">
+            <thead style="border-bottom: none">
+                <tr>
+                    <% if(projectoption.oid){%><th scope="col-sm-10" class="ID">ID</th><%}%>
+                        <% if(projectoption.oname){%><th scope="col-sm-10" class="Name">Name</th><%}%>
+                        <% if(projectoption.omember){%><th scope="col-sm-10" class="Member">Members</th><%}%>
+                    <th scope="col-sm-10" class="Action">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <% data.forEach((item) => {  %>
+                <tr>
+                    <% if(projectoption.oid){%><td scope="row" class="ID">
+                        <a href="/projects/overview/<%= item.projectid%>"><%= item.projectid %> </a> </td><%}%>
+                            <% if(projectoption.oname){%> <td class="Name"><%= item.name %></td><%}%>
+                            <% if(projectoption.omember){%><td class="Member"><%= item.members %>
+                    </td><%}%>
+
+                        <td class="Action">
+                            <a href="/projects/edit/<%= item.projectid %>" class="btn btn-success"
+                    <%= !isAdmin ? 'hidden' : '' %>>Edit</a></button>
+                    <a href="/projects/delete/<%= item.projectid %>" class=" btn btn-danger"
+                        onclick="return confirm('Yakin mau delete project...!!!')"
+                        <%= !isAdmin ? 'hidden' : '' %>>Delete</a>
+                    </td>
+                </tr>
+                <% }) %>
+                </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item <%= pagination.page == 1 ?' disabled' : '' %>"><a class="page-link"
+                        href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)-1}`) %>">Previous</a>
+                </li>
+                <% for (let i = 1; i <= pagination.pages; i++) {%>
+                <li class="page-item<%= i == pagination.page ?' active' : ''%>"><a class="page-link"
+                        href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>"><%= i %></a>
+                </li>
+                <% } %>
+                <li
+                    class="page-item<%= (pagination.page == pagination.pages || pagination.pages == 0) ?' disabled' : ''%>">
+                    <a class="page-link"
+                        href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)+1}`) %>">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+        <a href="/projects/add" class="btn btn-primary">Add</a>
+    </div>
+</div>
+
+
+<% include ../partials/footer %>

@@ -1,0 +1,48 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="jumbotron mt-4">
+        <form method="POST">
+            <h1><b>Edit Project</h1></b><br>
+            <div class="form-group row">
+                <label for="inputid" class="col-sm-2 col-form-label">ID</label>
+                <div class="col-sm-4">
+                    <input type="id" class="form-control" name="id" id="id" placeholder="ID"
+                        value="<%= project.projectid %>" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Project Name</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="projectname" placeholder="Project Name"
+                        name="projectname" value="<%= project.name %>">
+                </div>
+            </div>
+            <% let first = true; users.forEach((item) => { %>
+            <div class="form-group row">
+                <% if(first){first = false; %>
+                <div class="col-sm-2">Members</div>
+                <% } else { %>
+                <div class="col-sm-2"></div>
+                <% } %>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="users" value="<%= `${item.userid}` %>"
+                            <%= members.includes(item.userid) ? ' checked' : '' %>>
+                        <label class="form-check-label" for="gridCheck1">
+                            <%= `${item.firstname} ${item.lastname}` %>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+            <button class="btn btn-primary" type="submit">Save</button>
+            <a href="/projects" class="btn btn-warning">Cancel</a>
+        </form>
+    </div>
+</div>
+
+
+
+<% include ../partials/footer %>
